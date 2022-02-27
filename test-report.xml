@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/roberto/testeate-backend-webapp/src/modules/auth/application/signup.service.spec.ts">
+    <testCase name="Signup should register new user" duration="3"/>
+    <testCase name="Signup should return failure on existing user uuid" duration="1"/>
+    <testCase name="Signup should return failure on existing username" duration="0"/>
+    <testCase name="Signup should fail on invalid uuid" duration="8"/>
+  </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/modules/auth/application/signin.service.spec.ts">
+    <testCase name="Signin should return the user" duration="3"/>
+    <testCase name="Signin should return null on no existing user" duration="0"/>
+    <testCase name="Signin should return null on wrong password" duration="1"/>
+  </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/modules/auth/infrastructure/signin/signin.controller.spec.ts">
+    <testCase name="SigninController should be defined" duration="14"/>
+  </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/modules/user/packages/packages.controller.spec.ts">
+    <testCase name="PackagesController should be defined" duration="12"/>
+  </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/modules/auth/infrastructure/signup/signup.controller.spec.ts">
+    <testCase name="SignupController should be defined" duration="12"/>
+  </file>
+</testExecutions>
