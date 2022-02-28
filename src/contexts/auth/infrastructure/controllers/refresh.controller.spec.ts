@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../fake-user.repository';
+import { FakeUserRepository } from '../persistence/fake-user.repository';
 import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
-import { FakeTokenRepository } from '../fake-token.repository';
+import { FakeTokenRepository } from '../persistence/fake-token.repository';
 import { RefreshController } from './refresh.controller';
 import { ITokenRepository } from '../../domain/token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
@@ -49,7 +49,7 @@ describe('RefreshController', () => {
       email: 'email@gmail.com'
     });
 
-    
+
     userRepository.save(user);
     tokenRepository.saveAll([
       AuthToken.create(validToken, user.uuid),

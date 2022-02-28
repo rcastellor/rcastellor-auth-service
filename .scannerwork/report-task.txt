@@ -1,6 +1,6 @@
-projectKey=testeate-backend-webapp
+projectKey=rcastellor-auth-service
 serverUrl=http://localhost:9005
 serverVersion=9.3.0.51899
-dashboardUrl=http://localhost:9005/dashboard?id=testeate-backend-webapp
-ceTaskId=AX9BG6BOaqa49HqoZxY_
-ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9BG6BOaqa49HqoZxY_
+dashboardUrl=http://localhost:9005/dashboard?id=rcastellor-auth-service
+ceTaskId=AX9BNPXhaqa49HqoZxZS
+ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9BNPXhaqa49HqoZxZS

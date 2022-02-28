@@ -3,7 +3,7 @@ import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
 import { Signup } from './signup.service';
 
-import { FakeUserRepository } from '../infrastructure/fake-user.repository';
+import { FakeUserRepository } from '../infrastructure/persistence/fake-user.repository';
 import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
 
 describe('Signup', () => {
@@ -29,29 +29,29 @@ describe('Signup', () => {
 
     it('should register new user', async () => {
         await expect(signup.execute('c2f78ad2-987f-11ec-a936-00155d2b6976',
-                                    'newuser',
-                                    'password',
-                                    'email@gmail.com')).resolves.toHaveProperty('result', true);
+            'newuser',
+            'password',
+            'email@gmail.com')).resolves.toHaveProperty('result', true);
 
     })
     it('should return failure on existing user uuid', async () => {
         await expect(signup.execute(existingUser.uuid.value,
-                                    'newuser',
-                                    'password',
-                                    'email@gmail.com')).resolves.toHaveProperty('result', false);
+            'newuser',
+            'password',
+            'email@gmail.com')).resolves.toHaveProperty('result', false);
 
     })
     it('should return failure on existing username', async () => {
         await expect(signup.execute('023ccb7a-9881-11ec-b370-00155d2b6976',
-                                    existingUser.username.value,
-                                    'password',
-                                    'email@gmail.com')).resolves.toHaveProperty('result', false);
+            existingUser.username.value,
+            'password',
+            'email@gmail.com')).resolves.toHaveProperty('result', false);
 
     })
     it('should fail on invalid uuid', async () => {
         await expect(signup.execute('invalid',
-                                    'test',
-                                    'password',
-                                    'email@gmail.com')).rejects.toThrow();
+            'test',
+            'password',
+            'email@gmail.com')).rejects.toThrow();
     })
 })

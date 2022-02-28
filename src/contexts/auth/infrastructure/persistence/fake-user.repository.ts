@@ -1,6 +1,6 @@
-import { Nullable } from '../../../shared/domain/nullable';
-import { AuthUser } from '../domain/auth-user.entity';
-import { IUserRepository } from '../domain/user.repository';
+import { Nullable } from '../../../../shared/domain/nullable';
+import { AuthUser } from '../../domain/auth-user.entity';
+import { IUserRepository } from '../../domain/user.repository';
 
 export class FakeUserRepository implements IUserRepository {
 

@@ -1,12 +1,12 @@
 import { Signin } from './signin.service';
 import { AuthUser } from '../domain/auth-user.entity';
-import { FakeUserRepository } from '../infrastructure/fake-user.repository';
+import { FakeUserRepository } from '../infrastructure/persistence/fake-user.repository';
 import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
 import { Result } from '../../../shared/domain/result';
 import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
 import { ITokenRepository } from '../domain/token.repository';
-import { FakeTokenRepository } from '../infrastructure/fake-token.repository';
+import { FakeTokenRepository } from '../infrastructure/persistence/fake-token.repository';
 
 describe('Signin', () => {
     let passwordSecure: IPasswordSecure;
@@ -31,15 +31,15 @@ describe('Signin', () => {
     });
 
     it('should return success with correct username/password', async () => {
-        const credentials = { username: user.username.value, password: 'password'};
+        const credentials = { username: user.username.value, password: 'password' };
         await expect(signin.execute(credentials)).resolves.toHaveProperty('result', true);
     });
     it('should return failure on no existing user', async () => {
-        const credentials = { username: 'test1', password: 'password'};
+        const credentials = { username: 'test1', password: 'password' };
         await expect(signin.execute(credentials)).resolves.toHaveProperty('result', false);
     });
     it('should return failure on wrong password', async () => {
-        const credentials = { username: user.username.value, password: 'password1'};
+        const credentials = { username: user.username.value, password: 'password1' };
         await expect(signin.execute(credentials)).resolves.toHaveProperty('result', false);
     });
 })
