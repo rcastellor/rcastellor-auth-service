@@ -2,19 +2,19 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
 import { SharedModule } from '../../shared/shared.module';
 import { LocalStrategy } from './infrastructure/controllers/local.strategy';
 import { SigninController } from './infrastructure/controllers/signin.controller';
-import { FakeUserRepository } from './infrastructure/persistence/fake-user.repository';
 import { SignupController } from './infrastructure/controllers/signup.controller';
 import { PlainPasswordSecure } from './infrastructure/plain-password-secure.service';
-import { FakeTokenRepository } from './infrastructure/persistence/fake-token.repository';
 import { RefreshController } from './infrastructure/controllers/refresh.controller';
 import authDatabaseConfig from './infrastructure/persistence/config/database.config';
 import authTokenDuration from './infrastructure/config/token.config';
 import { NestAuthConfigService } from './infrastructure/services/nest-auth-config.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
+import { TypeormUserRepository } from './infrastructure/persistence/repositories/user.typeorm-repository';
+import { Connection, getConnection } from 'typeorm';
+import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         ConfigModule
       ],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({ ...configService.get('database') })
+      useFactory: async (configService: ConfigService) => ({ ...configService.get('database') }),
     })
   ],
   controllers: [
@@ -42,11 +42,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [
     {
       provide: 'UserRepository',
-      useClass: FakeUserRepository,
+      useFactory: (connection: Connection) => {
+        return new TypeormUserRepository(connection);
+      },
+      inject: [getConnectionToken()]
     },
     {
       provide: 'TokenRepository',
-      useClass: FakeTokenRepository,
+      useFactory: (connection: Connection) => {
+        return new TypeormTokenRepository(connection);
+      },
+      inject: [getConnectionToken()]
     },
     {
       provide: 'PasswordSecure',

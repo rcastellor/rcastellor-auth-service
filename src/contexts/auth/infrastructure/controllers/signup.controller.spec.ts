@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { SharedModule } from '../../../../shared/shared.module';
-import { FakeUserRepository } from '../persistence/fake-user.repository';
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { SignupController } from './signup.controller';
 import { IUserRepository } from '../../domain/user.repository';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
+import { UserStatus } from '../../domain/value-object/auth-user-status';
 
 describe('SignupController', () => {
   let controller: SignupController;
@@ -50,7 +51,8 @@ describe('SignupController', () => {
       uuid,
       username,
       password: 'test',
-      email: 'test@gmail.com'
+      email: 'test@gmail.com',
+      status: UserStatus.ACTIVE,
     };
     const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await expect(controller.signup(data)).resolves.not.toThrow();
@@ -65,7 +67,8 @@ describe('SignupController', () => {
       uuid,
       username,
       password: 'test',
-      email: 'test@gmail.com'
+      email: 'test@gmail.com',
+      status: UserStatus.ACTIVE,
     };
     const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await repository.save(user);

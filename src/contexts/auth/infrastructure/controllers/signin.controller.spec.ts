@@ -1,15 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SigninController } from './signin.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../persistence/fake-user.repository';
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { LocalStrategy } from './local.strategy';
 import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
-import { FakeTokenRepository } from '../persistence/fake-token.repository';
+import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
+import { UserStatus } from '../../domain/value-object/auth-user-status';
 
 describe('SigninController', () => {
   let controller: SigninController;
@@ -56,7 +57,8 @@ describe('SigninController', () => {
       uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
       username: 'rcastellor',
       password: 'password',
-      email: 'email@gmail.com'
+      email: 'email@gmail.com',
+      status: UserStatus.ACTIVE,
     });
 
     repository.save(user);

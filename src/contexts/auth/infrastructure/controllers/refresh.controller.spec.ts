@@ -1,14 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../persistence/fake-user.repository';
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
-import { FakeTokenRepository } from '../persistence/fake-token.repository';
+import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { RefreshController } from './refresh.controller';
 import { ITokenRepository } from '../../domain/token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
+import { UserStatus } from '../../domain/value-object/auth-user-status';
 
 describe('RefreshController', () => {
   let controller: RefreshController;
@@ -46,7 +47,8 @@ describe('RefreshController', () => {
       uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
       username: 'rcastellor',
       password: 'password',
-      email: 'email@gmail.com'
+      email: 'email@gmail.com',
+      status: UserStatus.ACTIVE,
     });
 
 

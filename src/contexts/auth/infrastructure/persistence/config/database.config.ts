@@ -1,4 +1,6 @@
 import { registerAs } from '@nestjs/config';
+import { Token } from '../entities/token.database-entity';
+import { User } from '../entities/user.database-entity';
 
 export default registerAs('database', () => ({
     type: process.env.DATABASE_TYPE,
@@ -8,7 +10,9 @@ export default registerAs('database', () => ({
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
     entities: [
-        __dirname + '/context/auth/**/*.database-entity{.ts}'
+        User,
+        Token
     ],
+    logging: true,
     synchronize: true,
 }));
