@@ -19,6 +19,7 @@ export class FakeUserRepository implements IUserRepository {
     }
 
     async save(user: AuthUser): Promise<void> {
-        Promise.resolve(this.repository.push(user));
+        this.repository.push(user);
+        return Promise.resolve();
     }
 }

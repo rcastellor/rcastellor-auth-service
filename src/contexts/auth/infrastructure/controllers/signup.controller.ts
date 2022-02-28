@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, HttpStatus, Inject, Post } from '@nestjs/common';
-import { IPasswordSecure } from '../../../../shared/domain/password-secure.interface';
+import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { Signup } from '../../application/signup.service';
 import { IUserRepository } from '../../domain/user.repository';
 

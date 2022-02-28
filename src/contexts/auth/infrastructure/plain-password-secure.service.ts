@@ -5,6 +5,10 @@ import { IPasswordSecure } from '../domain/password-secure.interface';
 export class PlainPasswordSecure implements IPasswordSecure {
 
     secure(password: string): Promise<string> {
-        return Promise.resolve(password);
+        return Promise.resolve('secured' + password);
+    }
+
+    compare(secure: string, password: string): Promise<boolean> {
+        return Promise.resolve(secure === 'secured' + password);
     }
 }

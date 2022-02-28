@@ -1,6 +1,6 @@
 import { Controller,Post, Request, Res, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LocalAuthGuard } from '../local-auth.guard';
+import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('signin')
 export class SigninController {
@@ -9,7 +9,7 @@ export class SigninController {
 
     @UseGuards(LocalAuthGuard)
     @Post()
-    async signin(@Request() req, @Res() res) {
+    signin(@Request() req, @Res() res) {
         const user = req.user;
         res.cookie('TE-refresh-token', this.jwtService.sign({sub: user.uuid.value}), {
             expires: new Date(new Date().getTime() + 2 * 30 * 24 * 60 * 1000),

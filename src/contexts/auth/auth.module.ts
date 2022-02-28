@@ -3,10 +3,11 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 import { SharedModule } from '../../shared/shared.module';
-import { LocalStrategy } from './infrastructure/local.strategy';
-import { SigninController } from './infrastructure/signin/signin.controller';
+import { LocalStrategy } from './infrastructure/controllers/local.strategy';
+import { SigninController } from './infrastructure/controllers/signin.controller';
 import { FakeUserRepository } from './infrastructure/fake-user.repository';
-import { SignupController } from './infrastructure/signup/signup.controller';
+import { SignupController } from './infrastructure/controllers/signup.controller';
+import { PlainPasswordSecure } from './infrastructure/plain-password-secure.service';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { SignupController } from './infrastructure/signup/signup.controller';
     {
       provide: 'UserRepository',
       useClass: FakeUserRepository,
+    },
+    {
+      provide: 'PasswordSecure',
+      useClass: PlainPasswordSecure,
     },
     LocalStrategy
   ]

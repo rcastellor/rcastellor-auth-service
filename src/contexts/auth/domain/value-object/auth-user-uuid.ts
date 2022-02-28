@@ -1,3 +1,3 @@
 import { Uuid } from '../../../../shared/domain/value-objects/uuid';
 
-export class AuthUuid extends Uuid {}
+export class AuthUserUuid extends Uuid {}
