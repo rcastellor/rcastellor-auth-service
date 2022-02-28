@@ -38,7 +38,7 @@ export class AuthToken {
         const charLen = chars.length;
 
         for (var i = 0; i < 50; i++) {
-            res += chars.charAt(Math.floor(crypto.randomInt(charLen) * charLen));
+            res += chars.charAt(crypto.randomInt(charLen));
         }
 
         return new AuthTokenId(res);

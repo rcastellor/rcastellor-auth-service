@@ -5,10 +5,13 @@ import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.ser
 import { Result } from '../../../shared/domain/result';
 import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
+import { ITokenRepository } from '../domain/token.repository';
+import { FakeTokenRepository } from '../infrastructure/fake-token.repository';
 
 describe('Signin', () => {
     let passwordSecure: IPasswordSecure;
     let userRepository: IUserRepository;
+    let tokenRepository: ITokenRepository;
     let user: AuthUser;
     let signin: Signin;
 
@@ -23,7 +26,8 @@ describe('Signin', () => {
         const users = [user];
 
         userRepository = new FakeUserRepository(users);
-        signin = new Signin(userRepository, passwordSecure);
+        tokenRepository = new FakeTokenRepository();
+        signin = new Signin(userRepository, tokenRepository, passwordSecure);
     });
 
     it('should return success with correct username/password', async () => {

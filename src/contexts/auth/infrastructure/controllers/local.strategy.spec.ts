@@ -9,9 +9,12 @@ import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
+import { ITokenRepository } from '../../domain/token.repository';
+import { FakeTokenRepository } from '../fake-token.repository';
 
 describe('LocalStrategy', () => {
   let userRepository: IUserRepository;
+  let tokenRepository: ITokenRepository;
   let passwordSecure: IPasswordSecure;
   let localStrategy: LocalStrategy;
   let user: AuthUser;
@@ -27,11 +30,12 @@ describe('LocalStrategy', () => {
     const users = [user];
 
     userRepository = new FakeUserRepository(users);
-    localStrategy = new LocalStrategy(userRepository, passwordSecure);
+    tokenRepository = new FakeTokenRepository();
+    localStrategy = new LocalStrategy(userRepository, tokenRepository, passwordSecure);
   });
 
   it('should return user on success login', async () => {
-    await expect(localStrategy.validate('test', 'password')).resolves.toEqual(user);
+    await expect(localStrategy.validate('test', 'password')).resolves.toHaveProperty('user', user);
   });
   it('should throw Unauthorized exception on wrong password', async () => {
     await expect(localStrategy.validate('test', 'password1')).rejects.toThrow();

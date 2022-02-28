@@ -8,6 +8,8 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
+import { FakeTokenRepository } from '../fake-token.repository';
+import { AuthToken } from '../../domain/auth-token.entity';
 
 describe('SigninController', () => {
   let controller: SigninController;
@@ -28,6 +30,10 @@ describe('SigninController', () => {
           useClass: FakeUserRepository,
         },
         {
+          provide: 'TokenRepository',
+          useClass: FakeTokenRepository,
+        },
+        {
           provide: 'PasswordSecure',
           useClass: PlainPasswordSecure,
         },
@@ -37,7 +43,7 @@ describe('SigninController', () => {
     }).compile();
 
     controller = module.get<SigninController>(SigninController);
-    repository = module.get<FakeUserRepository>('UserRepository');
+    repository = module.get<IUserRepository>('UserRepository');
   });
 
   it('should be defined', () => {
@@ -54,7 +60,8 @@ describe('SigninController', () => {
     });
 
     repository.save(user);
-    req.user = user;
+    const token = AuthToken.create(AuthToken.randomid(), user.uuid);
+    req.user = { user, token };
     const res = httpMocks.createResponse();
     controller.signin(req, res);
     expect(res.statusCode).toBe(200);

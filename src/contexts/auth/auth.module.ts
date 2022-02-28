@@ -8,6 +8,8 @@ import { SigninController } from './infrastructure/controllers/signin.controller
 import { FakeUserRepository } from './infrastructure/fake-user.repository';
 import { SignupController } from './infrastructure/controllers/signup.controller';
 import { PlainPasswordSecure } from './infrastructure/plain-password-secure.service';
+import { FakeTokenRepository } from './infrastructure/fake-token.repository';
+import { RefreshController } from './infrastructure/controllers/refresh.controller';
 
 @Module({
   imports: [
@@ -20,12 +22,17 @@ import { PlainPasswordSecure } from './infrastructure/plain-password-secure.serv
   ],
   controllers: [
     SigninController,
-    SignupController
+    SignupController,
+    RefreshController,
   ],
   providers: [
     {
       provide: 'UserRepository',
       useClass: FakeUserRepository,
+    },
+    {
+      provide: 'TokenRepository',
+      useClass: FakeTokenRepository,
     },
     {
       provide: 'PasswordSecure',
