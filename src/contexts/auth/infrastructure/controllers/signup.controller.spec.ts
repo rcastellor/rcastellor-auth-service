@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { SharedModule } from '../../../../shared/shared.module';
-import { FakeUserRepository } from '../fake-user.repository';
+import { FakeUserRepository } from '../persistence/fake-user.repository';
 import { SignupController } from './signup.controller';
 import { IUserRepository } from '../../domain/user.repository';
 import { AuthUser } from '../../domain/auth-user.entity';
@@ -52,7 +52,7 @@ describe('SignupController', () => {
       password: 'test',
       email: 'test@gmail.com'
     };
-    const user = AuthUser.fromPrimitives(  { ...data, password: await passwordSecure.secure(data.password) } );
+    const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await expect(controller.signup(data)).resolves.not.toThrow();
     await expect(repository.findByUsername(username)).resolves.toEqual(user);
     await expect(repository.findByUuid(uuid)).resolves.toEqual(user);
@@ -67,7 +67,7 @@ describe('SignupController', () => {
       password: 'test',
       email: 'test@gmail.com'
     };
-    const user = AuthUser.fromPrimitives( { ...data, password: await passwordSecure.secure(data.password) });
+    const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await repository.save(user);
     await expect(controller.signup(data)).rejects.toThrow(HttpException);
   });

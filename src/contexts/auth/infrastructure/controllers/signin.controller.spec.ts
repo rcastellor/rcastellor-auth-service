@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SigninController } from './signin.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../fake-user.repository';
+import { FakeUserRepository } from '../persistence/fake-user.repository';
 import { LocalStrategy } from './local.strategy';
 import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
-import { FakeTokenRepository } from '../fake-token.repository';
+import { FakeTokenRepository } from '../persistence/fake-token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
 
 describe('SigninController', () => {
