@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/infrastructure/controllers/signup.controller.spec.ts">
-    <testCase name="SignupController should be defined" duration="14"/>
-    <testCase name="SignupController sould run silently and save user" duration="6"/>
-    <testCase name="SignupController sould throw exception on existing user" duration="22"/>
-  </file>
   <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/infrastructure/controllers/local.strategy.spec.ts">
-    <testCase name="LocalStrategy should return user on success login" duration="3"/>
+    <testCase name="LocalStrategy should return user on success login" duration="4"/>
     <testCase name="LocalStrategy should throw Unauthorized exception on wrong password" duration="6"/>
     <testCase name="LocalStrategy should throw Unauthorized exception on not existing user" duration="1"/>
   </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/application/signup.service.spec.ts">
+    <testCase name="Signup should register new user" duration="3"/>
+    <testCase name="Signup should return failure on existing user uuid" duration="0"/>
+    <testCase name="Signup should return failure on existing username" duration="1"/>
+    <testCase name="Signup should fail on invalid uuid" duration="8"/>
+  </file>
+  <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/infrastructure/controllers/signup.controller.spec.ts">
+    <testCase name="SignupController should be defined" duration="15"/>
+    <testCase name="SignupController sould run silently and save user" duration="5"/>
+    <testCase name="SignupController sould throw exception on existing user" duration="11"/>
+  </file>
   <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/infrastructure/controllers/signin.controller.spec.ts">
-    <testCase name="SigninController should be defined" duration="17"/>
-    <testCase name="SigninController sould set response status code to 200 on success auth" duration="9"/>
+    <testCase name="SigninController should be defined" duration="16"/>
+    <testCase name="SigninController sould set response status code to 200 on success auth" duration="8"/>
   </file>
   <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/application/signin.service.spec.ts">
     <testCase name="Signin should return success with correct username/password" duration="4"/>
-    <testCase name="Signin should return failure on no existing user" duration="0"/>
+    <testCase name="Signin should return failure on no existing user" duration="1"/>
     <testCase name="Signin should return failure on wrong password" duration="1"/>
   </file>
-  <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/application/signup.service.spec.ts">
-    <testCase name="Signup should register new user" duration="3"/>
-    <testCase name="Signup should return failure on existing user uuid" duration="1"/>
-    <testCase name="Signup should return failure on existing username" duration="0"/>
-    <testCase name="Signup should fail on invalid uuid" duration="7"/>
+  <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/application/signout.service.spec.ts">
+    <testCase name="Signout should mark token as expired on success logout" duration="4"/>
   </file>
   <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/application/refresh.service.spec.ts">
     <testCase name="Refresh should return success valid token" duration="4"/>
     <testCase name="Refresh should return failure on invalid token and invalidate valid tokens" duration="1"/>
-    <testCase name="Refresh should return failure on used token and invalidate valid tokens" duration="0"/>
-    <testCase name="Refresh should return failure on non existing token and let valid tokens" duration="0"/>
+    <testCase name="Refresh should return failure on used token and invalidate valid tokens" duration="1"/>
+    <testCase name="Refresh should return failure on non existing token and let valid tokens" duration="1"/>
   </file>
   <file path="/home/roberto/testeate-backend-webapp/src/contexts/auth/infrastructure/controllers/refresh.controller.spec.ts">
-    <testCase name="RefreshController should be defined" duration="14"/>
+    <testCase name="RefreshController should be defined" duration="13"/>
     <testCase name="RefreshController sould set response status code to 200 on success auth" duration="7"/>
     <testCase name="RefreshController sould set response status code to 401 on failed auth" duration="5"/>
-    <testCase name="RefreshController sould set response status code to 401 on no refresh token" duration="8"/>
+    <testCase name="RefreshController sould set response status code to 401 on no refresh token" duration="3"/>
   </file>
 </testExecutions>
