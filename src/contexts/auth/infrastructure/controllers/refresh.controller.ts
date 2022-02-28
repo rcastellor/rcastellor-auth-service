@@ -1,7 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Inject, Post, Request, Res } from '@nestjs/common';
-import { IPasswordSecure } from '../../domain/password-secure.interface';
-import { Signup } from '../../application/signup.service';
-import { IUserRepository } from '../../domain/user.repository';
+import { Controller, Inject, Post, Request, Res } from '@nestjs/common';
 import { ITokenRepository } from '../../domain/token.repository';
 import { Refresh } from '../../application/refresh.service';
 import { JwtService } from '@nestjs/jwt';

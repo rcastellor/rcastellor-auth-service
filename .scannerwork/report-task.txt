@@ -2,5 +2,5 @@ projectKey=testeate-backend-webapp
 serverUrl=http://localhost:9005
 serverVersion=9.3.0.51899
 dashboardUrl=http://localhost:9005/dashboard?id=testeate-backend-webapp
-ceTaskId=AX9AiG2eaqa49HqoZxY7
-ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9AiG2eaqa49HqoZxY7
+ceTaskId=AX9BCHzvaqa49HqoZxY8
+ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9BCHzvaqa49HqoZxY8
