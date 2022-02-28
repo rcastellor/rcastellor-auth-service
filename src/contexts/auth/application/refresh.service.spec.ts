@@ -34,6 +34,10 @@ describe('Refresh', () => {
         await expect(refresh.execute(validToken)).resolves.toHaveProperty('result', true);
         await expect(tokenRepository.find(new AuthTokenId(validToken))).resolves.toHaveProperty('status', new AuthTokenStatus(TokenStatus.USED));
     });
+    it('should return failure on expired token', async () => {
+        await expect(refresh.execute(expiredToken)).resolves.toHaveProperty('result', false);
+        await expect(tokenRepository.find(new AuthTokenId(expiredToken))).resolves.toHaveProperty('status', new AuthTokenStatus(TokenStatus.EXPIRED));
+    });
     it('should return failure on invalid token and invalidate valid tokens', async () => {
         await expect(refresh.execute(invalidToken)).resolves.toHaveProperty('result', false);
         await expect(tokenRepository.find(new AuthTokenId(validToken))).resolves.toHaveProperty('status', new AuthTokenStatus(TokenStatus.INVALID));
