@@ -3,7 +3,7 @@ import { ITokenRepository } from '../domain/token.repository';
 import { AuthTokenId } from '../domain/value-object/auth-token-id';
 import { AuthTokenStatus, TokenStatus } from '../domain/value-object/auth-token-status';
 import { AuthUserUuid } from '../domain/value-object/auth-user-uuid';
-import { FakeTokenRepository } from '../infrastructure/persistence/fake-token.repository';
+import { FakeTokenRepository } from '../infrastructure/persistence/repositories/fake-token.repository';
 import { Refresh } from './refresh.service';
 import { Signout } from './signout.service';
 

@@ -3,8 +3,9 @@ import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
 import { Signup } from './signup.service';
 
-import { FakeUserRepository } from '../infrastructure/persistence/fake-user.repository';
+import { FakeUserRepository } from '../infrastructure/persistence/repositories/fake-user.repository';
 import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
+import { UserStatus } from '../domain/value-object/auth-user-status';
 
 describe('Signup', () => {
     let passwordSecure: IPasswordSecure;
@@ -18,7 +19,8 @@ describe('Signup', () => {
             uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
             username: 'test',
             password: await passwordSecure.secure('password'),
-            email: 'email@gmail.com'
+            email: 'email@gmail.com',
+            status: UserStatus.ACTIVE,
         });
         const users = [existingUser];
 

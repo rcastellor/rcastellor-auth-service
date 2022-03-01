@@ -8,19 +8,19 @@ import { AuthToken } from '../../domain/auth-token.entity';
 export class RefreshController {
 
     constructor(@Inject('TokenRepository') private tokenRepository: ITokenRepository,
-                    private jwtService: JwtService) {}
+        private jwtService: JwtService) { }
 
     @Post()
     async refresh(@Request() req, @Res() res) {
         const result = await new Refresh(this.tokenRepository)
-                                .execute(req.cookies['TE-refresh-token']);
-        if(!result.result) {
+            .execute(req.cookies['TE-refresh-token']);
+        if (!result.result) {
             res.clearCookie('TE-refresh-token');
             res.sendStatus(401);
             return;
         }
         const token = result.data as AuthToken;
-        res.cookie('TE-refresh-token', token.uuid.value, {
+        res.cookie('TE-refresh-token', token.id.value, {
             expires: new Date(new Date().getTime() + 2 * 30 * 24 * 60 * 1000),
             domain: 'localhost',
             sameSite: 'none',

@@ -1,12 +1,12 @@
 import { Signin } from './signin.service';
 import { AuthUser } from '../domain/auth-user.entity';
-import { FakeUserRepository } from '../infrastructure/persistence/fake-user.repository';
+import { FakeUserRepository } from '../infrastructure/persistence/repositories/fake-user.repository';
 import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
-import { Result } from '../../../shared/domain/result';
 import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
 import { ITokenRepository } from '../domain/token.repository';
-import { FakeTokenRepository } from '../infrastructure/persistence/fake-token.repository';
+import { FakeTokenRepository } from '../infrastructure/persistence/repositories/fake-token.repository';
+import { UserStatus } from '../domain/value-object/auth-user-status';
 
 describe('Signin', () => {
     let passwordSecure: IPasswordSecure;
@@ -21,7 +21,8 @@ describe('Signin', () => {
             uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
             username: 'test',
             password: await passwordSecure.secure('password'),
-            email: 'email@gmail.com'
+            email: 'email@gmail.com',
+            status: UserStatus.ACTIVE,
         });
         const users = [user];
 

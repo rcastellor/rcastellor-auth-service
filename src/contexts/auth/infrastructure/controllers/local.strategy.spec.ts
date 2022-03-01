@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SigninController } from './signin.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../persistence/fake-user.repository';
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { LocalStrategy } from './local.strategy';
 import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
@@ -10,7 +10,8 @@ import { IUserRepository } from '../../domain/user.repository';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { ITokenRepository } from '../../domain/token.repository';
-import { FakeTokenRepository } from '../persistence/fake-token.repository';
+import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
+import { UserStatus } from '../../domain/value-object/auth-user-status';
 
 describe('LocalStrategy', () => {
   let userRepository: IUserRepository;
@@ -25,7 +26,8 @@ describe('LocalStrategy', () => {
       uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
       username: 'test',
       password: await passwordSecure.secure('password'),
-      email: 'email@gmail.com'
+      email: 'email@gmail.com',
+      status: UserStatus.ACTIVE,
     });
     const users = [user];
 

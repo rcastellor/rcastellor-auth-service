@@ -2,12 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { SharedModule } from '../../../../shared/shared.module';
-import { FakeUserRepository } from '../persistence/fake-user.repository';
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { SignupController } from './signup.controller';
 import { IUserRepository } from '../../domain/user.repository';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
+import { UserStatus } from '../../domain/value-object/auth-user-status';
+import { AuthUsername } from '../../domain/value-object/auth-username';
+import { AuthUserUuid } from '../../domain/value-object/auth-user-uuid';
 
 describe('SignupController', () => {
   let controller: SignupController;
@@ -35,7 +38,7 @@ describe('SignupController', () => {
     }).compile();
 
     controller = module.get<SignupController>(SignupController);
-    repository = module.get<FakeUserRepository>('UserRepository');
+    repository = module.get<IUserRepository>('UserRepository');
     passwordSecure = module.get<IPasswordSecure>('PasswordSecure');
   });
 
@@ -50,12 +53,13 @@ describe('SignupController', () => {
       uuid,
       username,
       password: 'test',
-      email: 'test@gmail.com'
+      email: 'test@gmail.com',
+      status: UserStatus.ACTIVE,
     };
     const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await expect(controller.signup(data)).resolves.not.toThrow();
-    await expect(repository.findByUsername(username)).resolves.toEqual(user);
-    await expect(repository.findByUuid(uuid)).resolves.toEqual(user);
+    await expect(repository.findByUsername(new AuthUsername(username))).resolves.toEqual(user);
+    await expect(repository.findByUuid(new AuthUserUuid(uuid))).resolves.toEqual(user);
   });
 
   it('sould throw exception on existing user', async () => {
@@ -65,7 +69,8 @@ describe('SignupController', () => {
       uuid,
       username,
       password: 'test',
-      email: 'test@gmail.com'
+      email: 'test@gmail.com',
+      status: UserStatus.ACTIVE,
     };
     const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await repository.save(user);
