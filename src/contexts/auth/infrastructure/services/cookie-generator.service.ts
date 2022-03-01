@@ -11,7 +11,6 @@ export class CookieGeneratorService {
     constructor(private configService: ConfigService) {
         this.cookieName = this.configService.get<string>('token.AUTH_COOKIE_NAME');
         this.refreshDuration = this.configService.get<number>('token.AUTH_REFRESH_DURATION');
-        console.log('refresh duration', this.refreshDuration);
     }
 
 
