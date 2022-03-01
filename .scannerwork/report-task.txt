@@ -2,5 +2,5 @@ projectKey=rcastellor-auth-service
 serverUrl=http://localhost:9005
 serverVersion=9.3.0.51899
 dashboardUrl=http://localhost:9005/dashboard?id=rcastellor-auth-service
-ceTaskId=AX9Ft1aVt7c6M77GR_bT
-ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9Ft1aVt7c6M77GR_bT
+ceTaskId=AX9GYeYut7c6M77GR_bU
+ceTaskUrl=http://localhost:9005/api/ce/task?id=AX9GYeYut7c6M77GR_bU

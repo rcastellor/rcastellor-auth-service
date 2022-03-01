@@ -1,6 +1,5 @@
 import { Body, Controller, HttpException, HttpStatus, Inject, Post } from '@nestjs/common';
 import {
-    ApiBearerAuth,
     ApiOperation,
     ApiResponse,
     ApiTags,
@@ -12,7 +11,7 @@ import { IUserRepository } from '../../domain/user.repository';
 
 import * as providers from '../providers';
 import { SignupDto } from './dto/signup.dto';
-import { Uuid } from '../../../../shared/domain/value-objects/uuid';
+
 
 @Controller('signup')
 @ApiTags('auth')
