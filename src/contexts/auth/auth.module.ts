@@ -18,6 +18,7 @@ import { TypeormTokenRepository } from './infrastructure/persistence/repositorie
 import { SignoutController } from './infrastructure/controllers/signout.controller';
 import { BcryptPasswordSecure } from './infrastructure/services/bcrypt-password-secure.service';
 import * as providers from './infrastructure/providers';
+import { CookieGeneratorService } from './infrastructure/services/cookie-generator.service';
 
 @Module({
   imports: [
@@ -72,7 +73,8 @@ import * as providers from './infrastructure/providers';
       provide: 'AuthConfig',
       useClass: NestAuthConfigService,
     },
-    LocalStrategy
+    LocalStrategy,
+    CookieGeneratorService,
   ],
 })
 export class AuthModule { }

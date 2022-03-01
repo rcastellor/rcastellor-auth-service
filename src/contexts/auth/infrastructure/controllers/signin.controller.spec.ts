@@ -1,9 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SigninController } from './signin.controller';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import * as httpMocks from 'node-mocks-http';
+import { SigninController } from './signin.controller';
+
 import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { LocalStrategy } from './local.strategy';
-import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
@@ -11,12 +13,17 @@ import { FakeTokenRepository } from '../persistence/repositories/fake-token.repo
 import { AuthToken } from '../../domain/auth-token.entity';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
 import { PlainPasswordSecure } from '../services/plain-password-secure.service';
+import { CookieGeneratorService } from '../services/cookie-generator.service';
 
 import * as providers from '../providers';
+import authTokenDuration from '../config/token.config';
+
+
 
 describe('SigninController', () => {
   let controller: SigninController;
   let repository: IUserRepository;
+  let cookieService: CookieGeneratorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,6 +33,8 @@ describe('SigninController', () => {
           signOptions: { expiresIn: '3600s' },
         }),
         SharedModule,
+        ConfigModule,
+        ConfigModule.forFeature(authTokenDuration)
       ],
       providers: [
         {
@@ -40,13 +49,15 @@ describe('SigninController', () => {
           provide: providers.PasswordSecure,
           useClass: PlainPasswordSecure,
         },
-        LocalStrategy
+        LocalStrategy,
+        CookieGeneratorService
       ],
       controllers: [SigninController],
     }).compile();
 
     controller = module.get<SigninController>(SigninController);
     repository = module.get<IUserRepository>('UserRepository');
+    cookieService = module.get<CookieGeneratorService>(CookieGeneratorService);
   });
 
   it('should be defined', () => {
@@ -69,7 +80,7 @@ describe('SigninController', () => {
     const res = httpMocks.createResponse();
     controller.signin({ username: 'username', password: 'password' }, req, res);
     expect(res.statusCode).toBe(200);
-    expect(res.cookies['TE-refresh-token']).toBeDefined();
+    expect(res.cookies[cookieService.cookieName]).toBeDefined();
   })
 
 });
