@@ -18,7 +18,7 @@ export const TypeOrmSQLITETestingModule = () => [
 ];
 
 export const clearDatasetSeed = async () => {
-    const connection = await getConnection();
+    const connection = getConnection();
     const entityManager = connection.createEntityManager();
 
     entityManager.clear(User);
@@ -27,7 +27,7 @@ export const clearDatasetSeed = async () => {
 
 
 export const testDatasetSeed = async () => {
-    const connection = await getConnection();
+    const connection = getConnection();
     const entityManager = connection.createEntityManager();
 
     entityManager.insert<User>(User, {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Connection, Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Nullable } from '../../../../../shared/domain/nullable';
 import { AuthUser } from '../../../domain/auth-user.entity';
 import { IUserRepository } from '../../../domain/user.repository';

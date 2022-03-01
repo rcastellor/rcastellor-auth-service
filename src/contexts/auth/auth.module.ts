@@ -16,7 +16,6 @@ import { NestAuthConfigService } from './infrastructure/services/nest-auth-confi
 import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormUserRepository } from './infrastructure/persistence/repositories/user.typeorm-repository';
 import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
-import { IAuthConfig } from './domain/config.interface';
 
 @Module({
   imports: [
