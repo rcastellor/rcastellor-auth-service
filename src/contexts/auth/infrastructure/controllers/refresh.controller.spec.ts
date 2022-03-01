@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import * as httpMocks from 'node-mocks-http';
 
@@ -13,11 +14,15 @@ import { AuthToken } from '../../domain/auth-token.entity';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
 
 import * as providers from '../providers';
+import authTokenDuration from '../config/token.config';
+import { CookieGeneratorService } from '../services/cookie-generator.service';
+
 
 describe('RefreshController', () => {
   let controller: RefreshController;
   let userRepository: IUserRepository;
   let tokenRepository: ITokenRepository;
+  let cookieService: CookieGeneratorService;
   const validToken = AuthToken.randomid();
   const usedToken = AuthToken.randomid();
 
@@ -29,6 +34,8 @@ describe('RefreshController', () => {
           signOptions: { expiresIn: '3600s' },
         }),
         SharedModule,
+        ConfigModule.forRoot(),
+        ConfigModule.forFeature(authTokenDuration),
       ],
       providers: [
         {
@@ -38,12 +45,14 @@ describe('RefreshController', () => {
         {
           provide: providers.TokenRepository,
           useClass: FakeTokenRepository,
-        }
+        },
+        CookieGeneratorService,
       ],
       controllers: [RefreshController],
     }).compile();
 
     controller = module.get<RefreshController>(RefreshController);
+    cookieService = module.get<CookieGeneratorService>(CookieGeneratorService);
     userRepository = module.get<IUserRepository>(providers.UserRepository);
     tokenRepository = module.get<ITokenRepository>(providers.TokenRepository);
     const user = AuthUser.fromPrimitives({
@@ -69,26 +78,26 @@ describe('RefreshController', () => {
 
   it('sould set response status code to 200 on success auth', async () => {
     const req = httpMocks.createRequest();
-    req.cookies['TE-refresh-token'] = validToken.value;
+    req.cookies[cookieService.cookieName] = validToken.value;
     const res = httpMocks.createResponse();
     await expect(controller.refresh(req, res)).resolves.not.toThrow();
     expect(res.statusCode).toBe(200);
-    expect(res.cookies['TE-refresh-token']).toBeDefined();
+    expect(res.cookies[cookieService.cookieName]).toBeDefined();
   });
 
   it('sould set response status code to 401 on failed auth', async () => {
     const req = httpMocks.createRequest();
-    req.cookies['TE-refresh-token'] = usedToken.value;
+    req.cookies[cookieService.cookieName] = usedToken.value;
     const res = httpMocks.createResponse();
     await expect(controller.refresh(req, res)).resolves.not.toThrow();
     expect(res.statusCode).toBe(401);
-    expect(res.cookies['TE-refresh-token']).toHaveProperty('value', '');
+    expect(res.cookies[cookieService.cookieName]).toHaveProperty('value', '');
   });
   it('sould set response status code to 401 on no refresh token', async () => {
     const req = httpMocks.createRequest();
     const res = httpMocks.createResponse();
     await expect(controller.refresh(req, res)).resolves.not.toThrow();
     expect(res.statusCode).toBe(401);
-    expect(res.cookies['TE-refresh-token']).toHaveProperty('value', '');
+    expect(res.cookies[cookieService.cookieName]).toHaveProperty('value', '');
   });
 });

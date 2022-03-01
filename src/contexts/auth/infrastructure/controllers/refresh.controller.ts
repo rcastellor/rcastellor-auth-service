@@ -6,14 +6,18 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthToken } from '../../domain/auth-token.entity';
 
 import * as providers from '../providers';
+import { CookieGeneratorService } from '../services/cookie-generator.service';
 
 
 @Controller('refresh')
 @ApiTags('auth')
 export class RefreshController {
 
-    constructor(@Inject(providers.TokenRepository) private tokenRepository: ITokenRepository,
-        private jwtService: JwtService) { }
+    constructor(
+        @Inject(providers.TokenRepository) private tokenRepository: ITokenRepository,
+        private jwtService: JwtService,
+        private cookieGenerator: CookieGeneratorService,
+    ) { }
 
     @Post()
     @HttpCode(200)
@@ -23,24 +27,19 @@ export class RefreshController {
     @ApiResponse({ status: 401, description: 'Authentication failed' })
     async refresh(@Request() req, @Res() res) {
         const result = await new Refresh(this.tokenRepository)
-            .execute(req.cookies['TE-refresh-token']);
+            .execute(req.cookies[this.cookieGenerator.cookieName]);
         if (!result.result) {
-            res.clearCookie('TE-refresh-token');
+            res.clearCookie(this.cookieGenerator.cookieName);
             res.sendStatus(401);
             return;
         }
         const token = result.data as AuthToken;
-        res.cookie('TE-refresh-token', token.id.value, {
-            expires: new Date(new Date().getTime() + 2 * 30 * 24 * 60 * 1000),
-            domain: 'localhost',
-            sameSite: 'none',
-            httpOnly: true,
-        });
-        //TODO:
+        res.cookie(this.cookieGenerator.cookieName,
+            token.id.value,
+            this.cookieGenerator.cookieOptions());
         const payload = { sub: token.user.toString() };
         res.send({
             access_token: this.jwtService.sign(payload),
-            id_token: this.jwtService.sign(payload),
         });
 
     }
