@@ -57,7 +57,7 @@ describe('SigninController', () => {
     const req = httpMocks.createRequest();
     const user = AuthUser.fromPrimitives({
       uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
-      username: 'rcastellor',
+      username: 'username',
       password: 'password',
       email: 'email@gmail.com',
       status: UserStatus.ACTIVE,
@@ -67,7 +67,7 @@ describe('SigninController', () => {
     const token = AuthToken.create(AuthToken.randomid(), user.uuid);
     req.user = { user, token };
     const res = httpMocks.createResponse();
-    controller.signin(req, res);
+    controller.signin({ username: 'username', password: 'password' }, req, res);
     expect(res.statusCode).toBe(200);
     expect(res.cookies['TE-refresh-token']).toBeDefined();
   })

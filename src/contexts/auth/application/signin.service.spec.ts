@@ -12,19 +12,19 @@ describe('Signin', () => {
     let passwordSecure: IPasswordSecure;
     let userRepository: IUserRepository;
     let tokenRepository: ITokenRepository;
-    let user: AuthUser;
+    let existingUser: AuthUser;
     let signin: Signin;
 
     beforeEach(async () => {
         passwordSecure = new PlainPasswordSecure();
-        user = AuthUser.fromPrimitives({
+        existingUser = AuthUser.fromPrimitives({
             uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
             username: 'test',
             password: await passwordSecure.secure('password'),
             email: 'email@gmail.com',
             status: UserStatus.ACTIVE,
         });
-        const users = [user];
+        const users = [existingUser];
 
         userRepository = new FakeUserRepository(users);
         tokenRepository = new FakeTokenRepository();
@@ -32,15 +32,12 @@ describe('Signin', () => {
     });
 
     it('should return success with correct username/password', async () => {
-        const credentials = { username: user.username.value, password: 'password' };
-        await expect(signin.execute(credentials)).resolves.toHaveProperty('result', true);
+        await expect(signin.execute(existingUser.username.value, 'password')).resolves.toHaveProperty('result', true);
     });
     it('should return failure on no existing user', async () => {
-        const credentials = { username: 'test1', password: 'password' };
-        await expect(signin.execute(credentials)).resolves.toHaveProperty('result', false);
+        await expect(signin.execute('test1', 'password')).resolves.toHaveProperty('result', false);
     });
     it('should return failure on wrong password', async () => {
-        const credentials = { username: user.username.value, password: 'password1' };
-        await expect(signin.execute(credentials)).resolves.toHaveProperty('result', false);
+        await expect(signin.execute(existingUser.username.value, 'wrongpassword')).resolves.toHaveProperty('result', false);
     });
 })
