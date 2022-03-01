@@ -1,17 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SigninController } from './signin.controller';
-import { JwtModule } from '@nestjs/jwt';
 import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { LocalStrategy } from './local.strategy';
-import * as httpMocks from 'node-mocks-http';
-import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
-import { PlainPasswordSecure } from '../services/plain-password-secure.service';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { ITokenRepository } from '../../domain/token.repository';
 import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
+import { PlainPasswordSecure } from '../services/plain-password-secure.service';
 
 describe('LocalStrategy', () => {
   let userRepository: IUserRepository;

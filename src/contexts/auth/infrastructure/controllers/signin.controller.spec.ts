@@ -7,10 +7,12 @@ import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
-import { PlainPasswordSecure } from '../services/plain-password-secure.service';
 import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
+import { PlainPasswordSecure } from '../services/plain-password-secure.service';
+
+import * as providers from '../providers';
 
 describe('SigninController', () => {
   let controller: SigninController;
@@ -27,15 +29,15 @@ describe('SigninController', () => {
       ],
       providers: [
         {
-          provide: 'UserRepository',
+          provide: providers.UserRepository,
           useClass: FakeUserRepository,
         },
         {
-          provide: 'TokenRepository',
+          provide: providers.TokenRepository,
           useClass: FakeTokenRepository,
         },
         {
-          provide: 'PasswordSecure',
+          provide: providers.PasswordSecure,
           useClass: PlainPasswordSecure,
         },
         LocalStrategy

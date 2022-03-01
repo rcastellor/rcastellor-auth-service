@@ -4,10 +4,12 @@ import { Refresh } from '../../application/refresh.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthToken } from '../../domain/auth-token.entity';
 
+import * as providers from '../providers';
+
 @Controller('refresh')
 export class RefreshController {
 
-    constructor(@Inject('TokenRepository') private tokenRepository: ITokenRepository,
+    constructor(@Inject(providers.TokenRepository) private tokenRepository: ITokenRepository,
         private jwtService: JwtService) { }
 
     @Post()
