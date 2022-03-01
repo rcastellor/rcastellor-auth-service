@@ -16,7 +16,7 @@ export class User {
     email: string;
 
     @Column({
-        type: 'simple-enum',
+        type: 'varchar'
     })
     status: UserStatus;
 }

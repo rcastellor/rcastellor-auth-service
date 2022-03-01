@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
-import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import * as httpMocks from 'node-mocks-http';
+
+import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';

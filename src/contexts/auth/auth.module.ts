@@ -16,6 +16,7 @@ import { NestAuthConfigService } from './infrastructure/services/nest-auth-confi
 import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormUserRepository } from './infrastructure/persistence/repositories/user.typeorm-repository';
 import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
+import { SignoutController } from './infrastructure/controllers/signout.controller';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { TypeormTokenRepository } from './infrastructure/persistence/repositorie
     SigninController,
     SignupController,
     RefreshController,
+    SignoutController,
   ],
   providers: [
     {
