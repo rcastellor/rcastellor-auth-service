@@ -7,7 +7,7 @@ import { SignupController } from './signup.controller';
 import { IUserRepository } from '../../domain/user.repository';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
-import { PlainPasswordSecure } from '../plain-password-secure.service';
+import { PlainPasswordSecure } from '../services/plain-password-secure.service';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
 import { AuthUsername } from '../../domain/value-object/auth-username';
 import { AuthUserUuid } from '../../domain/value-object/auth-user-uuid';

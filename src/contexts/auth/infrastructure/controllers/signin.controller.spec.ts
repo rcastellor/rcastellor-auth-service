@@ -7,7 +7,7 @@ import * as httpMocks from 'node-mocks-http';
 import { SharedModule } from '../../../../shared/shared.module';
 import { AuthUser } from '../../domain/auth-user.entity';
 import { IUserRepository } from '../../domain/user.repository';
-import { PlainPasswordSecure } from '../plain-password-secure.service';
+import { PlainPasswordSecure } from '../services/plain-password-secure.service';
 import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
