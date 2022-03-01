@@ -8,7 +8,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { LocalStrategy } from './infrastructure/controllers/local.strategy';
 import { SigninController } from './infrastructure/controllers/signin.controller';
 import { SignupController } from './infrastructure/controllers/signup.controller';
-import { PlainPasswordSecure } from './infrastructure/plain-password-secure.service';
 import { RefreshController } from './infrastructure/controllers/refresh.controller';
 import authDatabaseConfig from './infrastructure/persistence/config/database.config';
 import authTokenDuration from './infrastructure/config/token.config';
@@ -17,6 +16,7 @@ import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormUserRepository } from './infrastructure/persistence/repositories/user.typeorm-repository';
 import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
 import { SignoutController } from './infrastructure/controllers/signout.controller';
+import { BcryptPasswordSecure } from './infrastructure/services/bcrypt-password-secure.service';
 
 @Module({
   imports: [
@@ -65,7 +65,7 @@ import { SignoutController } from './infrastructure/controllers/signout.controll
     },
     {
       provide: 'PasswordSecure',
-      useClass: PlainPasswordSecure,
+      useClass: BcryptPasswordSecure,
     },
     {
       provide: 'AuthConfig',

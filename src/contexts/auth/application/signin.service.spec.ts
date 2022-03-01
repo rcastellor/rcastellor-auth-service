@@ -1,7 +1,7 @@
 import { Signin } from './signin.service';
 import { AuthUser } from '../domain/auth-user.entity';
 import { FakeUserRepository } from '../infrastructure/persistence/repositories/fake-user.repository';
-import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
+import { PlainPasswordSecure } from '../infrastructure/services/plain-password-secure.service';
 import { IPasswordSecure } from '../domain/password-secure.interface';
 import { IUserRepository } from '../domain/user.repository';
 import { ITokenRepository } from '../domain/token.repository';

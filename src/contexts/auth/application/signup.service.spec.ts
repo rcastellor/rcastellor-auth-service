@@ -4,7 +4,7 @@ import { IUserRepository } from '../domain/user.repository';
 import { Signup } from './signup.service';
 
 import { FakeUserRepository } from '../infrastructure/persistence/repositories/fake-user.repository';
-import { PlainPasswordSecure } from '../infrastructure/plain-password-secure.service';
+import { PlainPasswordSecure } from '../infrastructure/services/plain-password-secure.service';
 import { UserStatus } from '../domain/value-object/auth-user-status';
 
 describe('Signup', () => {
