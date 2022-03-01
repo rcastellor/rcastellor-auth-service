@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[rcastellor-auth-service](https://github.com/rcastellor/rcastellor-auth-service) autentication service for distributed applications.
 
 ## Installation
 
@@ -64,10 +64,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Roberto Castellor](https://www.castellor.es)
+- Twitter - [@rcastellor](https://twitter.com/rcastellornestframework)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Nest is [GNUv3 licensed](LICENSE).
