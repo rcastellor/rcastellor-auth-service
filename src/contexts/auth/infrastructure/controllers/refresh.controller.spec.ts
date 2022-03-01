@@ -12,6 +12,8 @@ import { ITokenRepository } from '../../domain/token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
 
+import * as providers from '../providers';
+
 describe('RefreshController', () => {
   let controller: RefreshController;
   let userRepository: IUserRepository;
@@ -23,18 +25,18 @@ describe('RefreshController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         JwtModule.register({
-          secret: 'TODO',
+          secret: 'secret',
           signOptions: { expiresIn: '3600s' },
         }),
         SharedModule,
       ],
       providers: [
         {
-          provide: 'UserRepository',
+          provide: providers.UserRepository,
           useClass: FakeUserRepository,
         },
         {
-          provide: 'TokenRepository',
+          provide: providers.TokenRepository,
           useClass: FakeTokenRepository,
         }
       ],
@@ -42,8 +44,8 @@ describe('RefreshController', () => {
     }).compile();
 
     controller = module.get<RefreshController>(RefreshController);
-    userRepository = module.get<IUserRepository>('UserRepository');
-    tokenRepository = module.get<ITokenRepository>('TokenRepository');
+    userRepository = module.get<IUserRepository>(providers.UserRepository);
+    tokenRepository = module.get<ITokenRepository>(providers.TokenRepository);
     const user = AuthUser.fromPrimitives({
       uuid: '4a2e8a62-9710-11ec-9895-00155d2b6bf4',
       username: 'rcastellor',

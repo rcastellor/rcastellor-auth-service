@@ -3,6 +3,7 @@ import { Token } from '../entities/token.database-entity';
 import { User } from '../entities/user.database-entity';
 
 export default registerAs('database', () => ({
+    name: 'auth-connection',
     type: process.env.DATABASE_TYPE,
     host: process.env.DATABASE_HOST || 'localhost',
     port: process.env.DATABASE_PORT || 5432,

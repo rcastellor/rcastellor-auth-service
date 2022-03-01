@@ -4,21 +4,14 @@ import { v4 } from 'uuid';
 import * as httpMocks from 'node-mocks-http';
 
 import { SharedModule } from '../../../../shared/shared.module';
-import { FakeUserRepository } from '../persistence/repositories/fake-user.repository';
-import { SignupController } from './signup.controller';
-import { IUserRepository } from '../../domain/user.repository';
-import { AuthUser } from '../../domain/auth-user.entity';
-import { IPasswordSecure } from '../../domain/password-secure.interface';
-import { PlainPasswordSecure } from '../services/plain-password-secure.service';
-import { UserStatus } from '../../domain/value-object/auth-user-status';
-import { AuthUsername } from '../../domain/value-object/auth-username';
 import { AuthUserUuid } from '../../domain/value-object/auth-user-uuid';
 import { SignoutController } from './signout.controller';
 import { ITokenRepository } from '../../domain/token.repository';
 import { FakeTokenRepository } from '../persistence/repositories/fake-token.repository';
 import { AuthToken } from '../../domain/auth-token.entity';
-import { AuthTokenId } from '../../domain/value-object/auth-token-id';
 import { AuthTokenStatus, TokenStatus } from '../../domain/value-object/auth-token-status';
+
+import * as providers from '../providers';
 
 describe('SignoutController', () => {
   let controller: SignoutController;
@@ -34,14 +27,14 @@ describe('SignoutController', () => {
       ],
       providers: [
         {
-          provide: 'TokenRepository',
+          provide: providers.TokenRepository,
           useClass: FakeTokenRepository,
         },
       ]
     }).compile();
 
     controller = module.get<SignoutController>(SignoutController);
-    tokenRepository = module.get<ITokenRepository>('TokenRepository');
+    tokenRepository = module.get<ITokenRepository>(providers.TokenRepository);
   });
 
   it('should be defined', () => {

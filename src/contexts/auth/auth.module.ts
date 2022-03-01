@@ -17,6 +17,7 @@ import { TypeormUserRepository } from './infrastructure/persistence/repositories
 import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
 import { SignoutController } from './infrastructure/controllers/signout.controller';
 import { BcryptPasswordSecure } from './infrastructure/services/bcrypt-password-secure.service';
+import * as providers from './infrastructure/providers';
 
 @Module({
   imports: [
@@ -50,21 +51,21 @@ import { BcryptPasswordSecure } from './infrastructure/services/bcrypt-password-
   ],
   providers: [
     {
-      provide: 'UserRepository',
+      provide: providers.UserRepository,
       useFactory: (connection: Connection) => {
         return new TypeormUserRepository(connection);
       },
       inject: [getConnectionToken()]
     },
     {
-      provide: 'TokenRepository',
+      provide: providers.TokenRepository,
       useFactory: (connection: Connection) => {
         return new TypeormTokenRepository(connection);
       },
       inject: [getConnectionToken()]
     },
     {
-      provide: 'PasswordSecure',
+      provide: providers.PasswordSecure,
       useClass: BcryptPasswordSecure,
     },
     {
