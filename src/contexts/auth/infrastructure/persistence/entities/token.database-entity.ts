@@ -16,7 +16,7 @@ export class Token {
     updatedAt: string
 
     @Column({
-        type: 'simple-enum',
+        type: 'varchar'
     })
     status: TokenStatus;
 }
