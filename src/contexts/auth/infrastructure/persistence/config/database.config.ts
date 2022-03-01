@@ -13,6 +13,6 @@ export default registerAs('database', () => ({
         User,
         Token
     ],
-    logging: true,
+    //logging: true,
     synchronize: true,
 }));

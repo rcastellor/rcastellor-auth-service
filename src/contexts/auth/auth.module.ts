@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Connection } from 'typeorm';
+
 import { SharedModule } from '../../shared/shared.module';
 import { LocalStrategy } from './infrastructure/controllers/local.strategy';
 import { SigninController } from './infrastructure/controllers/signin.controller';
@@ -13,16 +15,22 @@ import authTokenDuration from './infrastructure/config/token.config';
 import { NestAuthConfigService } from './infrastructure/services/nest-auth-config.service';
 import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormUserRepository } from './infrastructure/persistence/repositories/user.typeorm-repository';
-import { Connection, getConnection } from 'typeorm';
 import { TypeormTokenRepository } from './infrastructure/persistence/repositories/token.typeorm-repository';
+import { IAuthConfig } from './domain/config.interface';
 
 @Module({
   imports: [
     SharedModule,
     PassportModule,
-    JwtModule.register({
-      secret: 'TODO',
-      signOptions: { expiresIn: '3600s' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        secret: config.get<string>('token.AUTH_SECRET_KEY'),
+        signOptions: {
+          expiresIn: config.get<number>('token.AUTH_TOKEN_DURATION'),
+        },
+      }),
+      inject: [ConfigService],
     }),
     ConfigModule.forFeature(authDatabaseConfig),
     ConfigModule.forFeature(authTokenDuration),
@@ -63,6 +71,6 @@ import { TypeormTokenRepository } from './infrastructure/persistence/repositorie
       useClass: NestAuthConfigService,
     },
     LocalStrategy
-  ]
+  ],
 })
 export class AuthModule { }

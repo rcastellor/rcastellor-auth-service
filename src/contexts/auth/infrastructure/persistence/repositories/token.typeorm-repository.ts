@@ -14,13 +14,13 @@ export class TypeormTokenRepository implements ITokenRepository {
 
     constructor(private readonly connection: Connection) { }
 
-    async find(token: AuthTokenId): Promise<Nullable<AuthToken>> {
+    async find(tokenId: AuthTokenId): Promise<Nullable<AuthToken>> {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
-        const user = await queryRunner.manager.findOne(Token, token.value);
+        const token = await queryRunner.manager.findOne(Token, tokenId.value);
         await queryRunner.release();
-        if (user) {
-            return AuthToken.fromPrimitives({ ...user });
+        if (token) {
+            return AuthToken.fromPrimitives({ ...token });
         }
         return null;
     }

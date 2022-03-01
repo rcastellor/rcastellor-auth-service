@@ -9,19 +9,14 @@ export class Token {
     @Column()
     user: string;
 
-    @Column({
-        type: 'timestamp'
-    })
+    @Column()
     createdAt: string;
 
-    @Column({
-        type: 'timestamp'
-    })
+    @Column()
     updatedAt: string
 
     @Column({
-        type: 'enum',
-        enum: TokenStatus,
+        type: 'simple-enum',
     })
     status: TokenStatus;
 }

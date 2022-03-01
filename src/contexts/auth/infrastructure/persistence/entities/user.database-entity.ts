@@ -16,8 +16,7 @@ export class User {
     email: string;
 
     @Column({
-        type: 'enum',
-        enum: UserStatus,
+        type: 'simple-enum',
     })
     status: UserStatus;
 }

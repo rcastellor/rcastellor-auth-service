@@ -4,6 +4,7 @@ import { AuthUser } from '../domain/auth-user.entity';
 import { IUserRepository } from '../domain/user.repository';
 import { AuthUserUuid } from '../domain/value-object/auth-user-uuid';
 import { UserStatus } from '../domain/value-object/auth-user-status';
+import { AuthUsername } from '../domain/value-object/auth-username';
 
 export class Signup {
     constructor(private readonly userRepository: IUserRepository,
@@ -11,11 +12,11 @@ export class Signup {
 
     async execute(uuid: string, username: string, password: string, email: string) {
         const authUuid = new AuthUserUuid(uuid);
-        let user = await this.userRepository.findByUuid(authUuid.value);
+        let user = await this.userRepository.findByUuid(authUuid);
         if (user) {
             return Result.failure('User already exists');
         }
-        user = await this.userRepository.findByUsername(username);
+        user = await this.userRepository.findByUsername(new AuthUsername(username));
         if (user) {
             return Result.failure('User already exists');
         }

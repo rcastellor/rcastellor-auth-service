@@ -9,6 +9,8 @@ import { AuthUser } from '../../domain/auth-user.entity';
 import { IPasswordSecure } from '../../domain/password-secure.interface';
 import { PlainPasswordSecure } from '../plain-password-secure.service';
 import { UserStatus } from '../../domain/value-object/auth-user-status';
+import { AuthUsername } from '../../domain/value-object/auth-username';
+import { AuthUserUuid } from '../../domain/value-object/auth-user-uuid';
 
 describe('SignupController', () => {
   let controller: SignupController;
@@ -36,7 +38,7 @@ describe('SignupController', () => {
     }).compile();
 
     controller = module.get<SignupController>(SignupController);
-    repository = module.get<FakeUserRepository>('UserRepository');
+    repository = module.get<IUserRepository>('UserRepository');
     passwordSecure = module.get<IPasswordSecure>('PasswordSecure');
   });
 
@@ -56,8 +58,8 @@ describe('SignupController', () => {
     };
     const user = AuthUser.fromPrimitives({ ...data, password: await passwordSecure.secure(data.password) });
     await expect(controller.signup(data)).resolves.not.toThrow();
-    await expect(repository.findByUsername(username)).resolves.toEqual(user);
-    await expect(repository.findByUuid(uuid)).resolves.toEqual(user);
+    await expect(repository.findByUsername(new AuthUsername(username))).resolves.toEqual(user);
+    await expect(repository.findByUuid(new AuthUserUuid(uuid))).resolves.toEqual(user);
   });
 
   it('sould throw exception on existing user', async () => {
