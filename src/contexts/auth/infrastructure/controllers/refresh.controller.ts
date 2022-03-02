@@ -26,6 +26,11 @@ export class RefreshController {
     @ApiResponse({ status: 400, description: 'Bad request.' })
     @ApiResponse({ status: 401, description: 'Authentication failed' })
     async refresh(@Request() req, @Res() res) {
+        if (!req.cookies[this.cookieGenerator.cookieName]) {
+            res.clearCookie(this.cookieGenerator.cookieName);
+            res.sendStatus(401);
+            return;
+        }
         const result = await new Refresh(this.tokenRepository)
             .execute(req.cookies[this.cookieGenerator.cookieName]);
         if (!result.result) {

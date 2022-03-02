@@ -18,7 +18,7 @@ export class CookieGeneratorService {
         const options: CookieOptions = {
             domain: this.configService.get<string>('token.AUTH_DOMAIN'),
             httpOnly: true,
-            sameSite: 'none',
+            sameSite: 'lax',
             expires: new Date(new Date().getTime() + this.refreshDuration * 1000)
         }
         return options;
