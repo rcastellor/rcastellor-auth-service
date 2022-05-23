@@ -27,9 +27,13 @@ import { CookieGeneratorService } from './infrastructure/services/cookie-generat
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (config: ConfigService) => ({
-        secret: config.get<string>('token.AUTH_SECRET_KEY'),
+        privateKey: config.get('token.JWT_PRIVATE_KEY'),
+        publicKey: config.get('token.JWT_PUBLIC_KEY'),
+        //secret: config.get<string>('token.AUTH_SECRET_KEY'),
         signOptions: {
           expiresIn: config.get<number>('token.AUTH_TOKEN_DURATION'),
+          algorithm: 'RS256',
+          keyid: config.get('token.JWT_KEY_ID'),
         },
       }),
       inject: [ConfigService],

@@ -6,4 +6,7 @@ export default registerAs('token', () => ({
     AUTH_REFRESH_DURATION: process.env.AUTH_REFRESH_DURATION || 1296000,
     AUTH_TOKEN_DURATION: process.env.AUTH_TOKEN_DURATION || 3600000,
     AUTH_SECRET_KEY: process.env.AUTH_SECRET_KEY,
+    JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY,
+    JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
+    JWT_KEY_ID: process.env.JWT_KEY_ID
 }));
