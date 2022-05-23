@@ -1,4 +1,5 @@
 import { Body, Controller, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -13,7 +14,8 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class SigninController {
 
     constructor(private jwtService: JwtService,
-        private cookieGenerator: CookieGeneratorService) { }
+        private cookieGenerator: CookieGeneratorService,
+        private configService: ConfigService) { }
 
     @UseGuards(LocalAuthGuard)
     @Post()
