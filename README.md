@@ -24,7 +24,28 @@
 
 ## Description
 
-[rcastellor-auth-service](https://github.com/rcastellor/rcastellor-auth-service) autentication service for distributed applications.
+[rcastellor-auth-service](https://github.com/rcastellor/rcastellor-auth-service) is an autentication service for distributed applications.
+
+The service publish an API to signup, signin, refresh session for modern SPA applications.
+
+The service makes use of severals standards to manage security:
+
+* [JWT](https://jwt.io/) signed tokens
+* [RSA](https://es.wikipedia.org/wiki/RSA) algorithm with public and private keys
+* [UUID](https://datatracker.ietf.org/doc/html/rfc4122) generation algorithms
+
+The service flow starts with the signup of users into the system, a minimal data is required, the underlaying database is mysql.
+
+Once the user is validated into the system he can signin for an access_token and a refresh token, the access_token is a field of the /signin response, it's a JWT token signed with the RSA private key and has the uuid of the user in the sub claim.
+
+The access_token has a short expired period and can be used to access resources based on the uuid of the user.
+
+The refresh token is a httponly secured cookie, it only has to be sent to the refresh endpoint, if the refresh token is valid would the refresh endpoint return a new access_token to be used by the application and the next refresh token.
+
+There are some risks in this implementation, if the access_token is stolen it can be used until his expiration (the reason of short periods). 
+The refresh token can be used only one time, if it's stolen and there is more than one use of the same refresh token all the live refresh tokens would be invalidated and to get a new access_token the user is forced to use his credentials again to start a session into the app. 
+
+This is a [good post](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/) about how refresh token works in this kind applications and why this approach.
 
 ## Installation
 
@@ -58,6 +79,12 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Dockerize
+
+```bash
+$ docker build .
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
@@ -65,7 +92,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## Stay in touch
 
 - Author - [Roberto Castellor](https://www.castellor.es)
-- Twitter - [@rcastellor](https://twitter.com/rcastellornestframework)
+- Twitter - [@rcastellor](https://twitter.com/rcastellor)
 
 ## License
 
